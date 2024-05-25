@@ -27,10 +27,9 @@ session.commit()
 with open('data/datos_jugadores.txt', 'r', encoding='utf-8') as file:
     for line in file:
         club_id, posicion, dorsal, nombre = line.strip().split(';')
-
-        club = session.query(Club).filter_by(id=club_id).first()
+        
         # Buscar el club por su id
-        #club = session.query(Club).filter_by(nombre= club_id).one()
+        club = session.query(Club).get(club_id)
         
         jugador = Jugador(nombre=nombre, dorsal=dorsal, posicion=posicion, club=club)
         session.add(jugador)
