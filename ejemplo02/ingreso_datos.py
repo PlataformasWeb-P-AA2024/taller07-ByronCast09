@@ -24,14 +24,16 @@ with open('data/datos_clubs.txt', 'r', encoding='utf-8') as f:
 
 session.commit()
 #------------------------	
-with open('data/datos_jugadores.txt', 'r', encoding='utf-8') as file:
-    for line in file:
-        club_id, posicion, dorsal, nombre = line.strip().split(';')
-        
-        # Buscar el club por su id
-        club = session.query(Club).get(club_id)
-        
-        jugador = Jugador(nombre=nombre, dorsal=dorsal, posicion=posicion, club=club)
-        session.add(jugador)
-        
+with open('data/datos_jugadores.txt', 'r', encoding='utf-8') as archivo2:
+    # obtener las líneas del archivo
+    data2 = archivo2.readlines()
+
+# Se crean objetos de tipo Jugador
+for lineas2 in data2:
+    clubJuga, posicionJuga, dorsalJuga, nombreJuga = lineas2.strip().split(';')
+    # Buscar el club correspondiente en la base de datos
+    club = session.query(Club).filter_by(nombre=clubJuga).one()
+    jugador = Jugador(nombre=nombreJuga, dorsal=int(dorsalJuga), posicion=posicionJuga, club=club)
+    session.add(jugador)
+    
 session.commit()
